@@ -11,10 +11,10 @@ const points = values
         [...game.matchAll(/(\d+|\|)( |$)/g)]
             .map(m => m[1])
             .reduce((acc, num) => (
-                acc.result = (num === '|' ? 0.5 : acc.result
+                acc.result = num === '|' ? 0.5 : acc.result
                     ? acc.result * (acc[num] || 1)
-                    : (acc[num] = 2, acc.result)
-                ), acc
+                    : (acc[num] = 2, acc.result),
+                acc
             ),{result: 0}).result
     ), 0);
 
