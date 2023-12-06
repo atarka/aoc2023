@@ -1,7 +1,7 @@
 const values = `Time:      7  15   30
 Distance:  9  40  200`;
 
-const boats = [...values.matchAll(/\d+/gm)].map(r => +r[0]);
+const boats = [...values.matchAll(/[\d ]+/gm)].map(r => +r[0].replace(/ /g, ''));
 let result = 1;
 
 for (let i = 0, l = boats.length / 2; i < l; ++i) {
