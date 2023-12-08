@@ -12,7 +12,7 @@ XXX = (XXX, XXX)`;
 const maps = [...values.matchAll(/([\dA-Z]+) = \(([\dA-Z]+), ([\dA-Z]+)/g)].reduce((acc, [, from, L, R]) => (acc[from] = {R, L}, acc), {});
 const travel = values.match(/[RL]+/)[0].split('');
 const getNodeRange = (node, count = 0) => {
-    while (node[2] !== 'Z' && ++count) node = maps[node][travel[(count - 1) % travel.length]];
+    for (;node[2] !== 'Z'; ++count) node = maps[node][travel[count % travel.length]];
     return count;
 }
 
