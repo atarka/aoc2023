@@ -17,9 +17,7 @@ const getNodeRange = (node, count = 0) => {
 }
 
 const lcm = (a, b) => {
-    const lar = Math.max(a, b);
-    const small = Math.min(a, b);
-    for (let i = lar;; i += lar) if (i % small == 0) return i;
+    for (let i = lar = Math.max(a, b), small = Math.min(a, b);; i += lar) if (i % small == 0) return i;
 }
 
 const count = Object.keys(maps).filter(node => node[2] === 'A').map(node => getNodeRange(node)).reduce((acc, count) => acc ? lcm(acc, count) : count, 0);
