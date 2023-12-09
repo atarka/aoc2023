@@ -4,8 +4,7 @@ const values = `0 3 6 9 12 15
 
 const calibara = (range) => {
     const diffRange = range.map((v, i, a) => i ? v - a[i - 1] : 0).slice(1);
-    if (diffRange.every(v => !v)) return range.at(0) || 0;
-    return range.at(0) - calibara(diffRange);
+    return range.at(0) - (diffRange.some(Boolean) ? calibara(diffRange) : 0);
 };
 
 const result = values.split(/\n/).map(row => row.split(' ').map(Number)).map(calibara).reduce((sum, v) => sum + v, 0);
