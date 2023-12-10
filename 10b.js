@@ -58,14 +58,9 @@ const travel = (p, len = 0, from = [-1, -1], history = []) => {
 
 while (validMoves.length) travel(...validMoves.shift());
 
-const facing = (from, to) => {
-    if (to[0] - from[0] === 1) return 'E';
-    else if (to[0] - from[0] === -1) return 'W';
-    else if (to[1] - from[1] === 1) return 'S';
-    return 'N';
-}
-const startingDiff = [facing(startingPoint, validHistory[1]), facing(startingPoint, validHistory[validHistory.length - 1])].sort().join('');
-maze[startingPoint[1]][startingPoint[0]] = {NS: '|', EW: '-', EN: 'L', NW: 'J', SW: '7', ES: 'F'}[startingDiff];
+const diff = (from, to) => [to[0] - from[0], to[1] - from[1]];
+const startingDiff = [diff(startingPoint, validHistory[1]), diff(startingPoint, validHistory[validHistory.length - 1])];
+maze[startingPoint[1]][startingPoint[0]] = Object.entries(moves).find(([_, moves]) => moves.every(m => startingDiff.find(d => d[0] === m[0] && d[1] === m[1])))[0];
 
 let tiles = 0;
 
