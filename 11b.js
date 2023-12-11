@@ -37,8 +37,7 @@ outer: for (let mx = map[0].length - 1; mx >= 0; --mx) {
 let sum = 0;
 for (let x = 0; x < galaxies.length - 1; ++x) {
     for (let y = x + 1; y < galaxies.length; ++y) {
-        const len = Math.abs(galaxies[x].x - galaxies[y].x) + Math.abs(galaxies[x].y - galaxies[y].y);
-        sum += len;
+        sum += Math.abs(galaxies[x].x - galaxies[y].x) + Math.abs(galaxies[x].y - galaxies[y].y);
     }
 }
 
