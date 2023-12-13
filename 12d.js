@@ -53,7 +53,7 @@ let total = 0;
 for (const row of rows) {
     const [springs, counts] = row.split(' ').map((r, i) => i ? r.split(',').map(Number) : r);
     const hotSprings = '.' + springs + '?' + springs + '?' + springs + '?' + springs + '?' + springs;
-    total += rematch('.' + hotSprings, counts);
+    total += rematch(hotSprings, counts);
 }
 
 console.log(total);
