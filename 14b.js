@@ -68,17 +68,7 @@ const south = () => Object.keys([...new Array(w)]).reverse().forEach(c => rowOrd
 const east = () => Object.keys([...new Array(h)]).reverse().forEach(c => rowOrder(w - 1, c, -1, 0));
 const west = () => Object.keys([...new Array(h)]).forEach(c => rowOrder(0, c, 1, 0));
 
-const getWeight = () => {
-    let weight = 0;
-    for (let x = 0; x < platform[0].length; ++x) {
-        for (let y = 0; y < platform.length; ++y) {
-            if (platform[y][x] === 'O') weight += h - y;
-        }
-    }
-
-    return weight;
-}
-
+const getWeight = () => platform.reduce((acc, row, i) => acc + row.filter(c => c === 'O').length * (h - i), 0);
 
 const cache = new Map();
 let weight = 0;
