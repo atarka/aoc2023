@@ -68,8 +68,6 @@ const south = () => Object.keys([...new Array(w)]).reverse().forEach(c => rowOrd
 const east = () => Object.keys([...new Array(h)]).reverse().forEach(c => rowOrder(w - 1, c, -1, 0));
 const west = () => Object.keys([...new Array(h)]).forEach(c => rowOrder(0, c, 1, 0));
 
-const getWeight = () => platform.reduce((acc, row, i) => acc + row.filter(c => c === 'O').length * (h - i), 0);
-
 const cache = new Map();
 let weight = 0;
 const total = 1000000000;
@@ -95,7 +93,7 @@ for (let i = 0; i < 1000000000; ++i) {
     south();
     east();
     nextKey = JSON.stringify(platform);
-    weight = getWeight();
+    weight = platform.reduce((acc, row, i) => acc + row.filter(c => c === 'O').length * (h - i), 0);
     cache.set(key, {i, nextKey, weight});
 }
 
