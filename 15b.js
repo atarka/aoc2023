@@ -9,12 +9,12 @@ const boxes = [...Array(256)].map((c) => []);
 for (const instruction of instructions) {
     const [, code, op, power] = instruction.match(/(.+)([=-])(\d+)?/);
     const box = hash(code);
-    const lens = {code, power};
     if (op === '=') {
-        if (!boxes[box].some(l => l.code === lens.code)) boxes[box].push(lens);
-        else boxes[box] = boxes[box].map(l => l.code === lens.code ? lens : l);
+        const lens = {code, power};
+        if (!boxes[box].some(l => l.code === code)) boxes[box].push(lens);
+        else boxes[box] = boxes[box].map(l => l.code === code ? lens : l);
     } else {
-        boxes[box] = boxes[box].filter(l => l.code !== lens.code);
+        boxes[box] = boxes[box].filter(l => l.code !== code);
     }
 }
 const total = boxes.reduce((acc, b, bid) => acc + b.reduce((sum, l, i) => sum + (bid + 1) * (i + 1) * l.power, 0), 0);
