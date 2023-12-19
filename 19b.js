@@ -40,38 +40,37 @@ const dissectRange = (item) => {
         switch (operator) {
             case '<':
                 if (item[param][0] >= value) break;
-                else if (item[param][1] < value) queue.push({...item, flow: workFlow});
+                else if (item[param][1] < value) dissectRange({...item, flow: workFlow});
                 else {
-                    queue.push({...item, flow: workFlow, [param]: [item[param][0], value - 1]});
-                    queue.push({...item, [param]: [value, item[param][1]]});
+                    dissectRange({...item, flow: workFlow, [param]: [item[param][0], value - 1]});
+                    dissectRange({...item, [param]: [value, item[param][1]]});
                 }
                 return;
 
             case '>':
                 if (item[param][1] <= value) break;
-                else if (item[param][0] > value) queue.push({...item, flow: workFlow});
+                else if (item[param][0] > value) dissectRange({...item, flow: workFlow});
                 else {
-                    queue.push({...item, [param]: [item[param][0], value]});
-                    queue.push({...item, flow: workFlow, [param]: [value + 1, item[param][1]]});
+                    dissectRange({...item, [param]: [item[param][0], value]});
+                    dissectRange({...item, flow: workFlow, [param]: [value + 1, item[param][1]]});
                 }
                 return;
             case '=':
                 if (item[param][0] > value || item[param][1] < value) break;
                 else {
-                    queue.push({...item, flow: workFlow, [param]: [value, value]});
-                    if (value !== item[param][0]) queue.push({...item, [param]: [item[param][1], value - 1]});
-                    if (value !== item[param][1]) queue.push({...item, [param]: [value + 1, item[param][1]]});
+                    dissectRange({...item, flow: workFlow, [param]: [value, value]});
+                    if (value !== item[param][0]) dissectRange({...item, [param]: [item[param][1], value - 1]});
+                    if (value !== item[param][1]) dissectRange({...item, [param]: [value + 1, item[param][1]]});
                 }
                 return;
 
             default:
-                queue.push({...item, flow: workFlow})
-                return;
+                return dissectRange({...item, flow: workFlow});
         }
     }
 }
 
-const queue = [{x: [1, 4000], a: [1, 4000], s: [1, 4000], m: [1, 4000], flow: 'in'}];
-while (queue.length) dissectRange(queue.shift());
-const total = acceptedRanges.reduce((sum, range) => sum + ['x', 'a', 's', 'm'].reduce((mul, param) => mul * (range[param][1] - range[param][0] + 1), 1), 0);
+const params = ['x', 'a', 's', 'm'];
+dissectRange(params.reduce((item, p) => (item[p] = [1, 4000], item), {flow: 'in'}));
+const total = acceptedRanges.reduce((sum, range) => sum + params.reduce((mul, param) => mul * (range[param][1] - range[param][0] + 1), 1), 0);
 console.log(total);
