@@ -24,7 +24,7 @@ const getButtonPresses = (targetDevice) => {
     const target = devices[targetDevice];
     if (!target) return 0;
 
-    outer: for (let button = 1;; ++button) {
+    for (let button = 1;; ++button) {
         const pulses = [{ to: 'broadcaster', from: 'button', type: false }];
 
         for (let i = 0; i < pulses.length; ++i) {
@@ -45,7 +45,7 @@ const getButtonPresses = (targetDevice) => {
                 }
             } else if (device.type === '&') {
                 device.state[device.from.indexOf(from)] = type;
-                const sendType = !device.state.slice(0, device.from.length).every(Boolean);
+                const sendType = !device.state.every(Boolean);
                 device.to.forEach(sendTo => pulses.push({ to: sendTo, from: to, type: sendType }));
             } else {
                 device.to.forEach(sendTo => pulses.push({ to: sendTo, from: to, type: false }));
