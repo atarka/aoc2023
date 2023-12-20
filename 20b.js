@@ -19,17 +19,19 @@ const devices = {};
 })
 
 
-const getButtonPresses = () => {
+const getButtonPresses = (targetDevice) => {
     const reps = {};
+    const target = devices[targetDevice];
+    if (!target) return 0;
 
-    outer: for (let button = 1; devices.rx; ++button) {
+    outer: for (let button = 1;; ++button) {
         const pulses = [{ to: 'broadcaster', from: 'button', type: false }];
 
         for (let i = 0; i < pulses.length; ++i) {
             const { from, to, type } = pulses[i];
-            if (type && devices.rx && !reps[from] && devices[devices.rx.from[0]].from.includes(from)) {
+            if (type && !reps[from] && devices[target.from[0]].from.includes(from)) {
                 reps[from] = button;
-                if (Object.keys(reps).length === devices[devices.rx.from[0]].from.length) {
+                if (Object.keys(reps).length === devices[target.from[0]].from.length) {
                     return Object.values(reps).reduce((acc, m) => acc * m, 1);
                 }
             }
@@ -52,4 +54,4 @@ const getButtonPresses = () => {
     }
 }
 
-console.log(getButtonPresses());
+console.log(getButtonPresses('rx'));
